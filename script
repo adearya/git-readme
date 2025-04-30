@@ -1,0 +1,215 @@
+#!/bin/bash
+
+README="README"
+
+if [[ ! -f "$README" ]]; then
+    echo "Error: $README not found!"
+    exit 1
+fi
+
+clear
+printf "=== Welcome to Git Readme! ===\n"
+printf "= Let's Enter General Input! =\n\n"
+
+PROJECT_NAME="$(basename "$PWD")"
+ 
+echo "Input Project Title:"
+read -e -p ">> " PROJECT_TITLE
+echo ""
+ 
+echo "Input Project About:"
+read -e -p ">> " PROJECT_ABOUT
+echo ""
+ 
+echo "Input Project Argument:"
+read -e -p ">> " PROJECT_ARGUMENT
+echo ""  
+ 
+echo "Input Project Description:"
+read -e -p ">> " PROJECT_DESC
+echo ""
+ 
+sed -i "s/template_name_project/$PROJECT_NAME/g" "$README"
+sed -i "s/template_title/$PROJECT_TITLE/g" "$README"
+sed -i "s/template_about/$PROJECT_ABOUT/g" "$README"
+sed -i "s/template_argument/$PROJECT_ARGUMENT/g" "$README"
+sed -i "s/template_description/$PROJECT_DESC/g" "$README"
+
+clear
+printf "=== The Next is Check Badges! ===\n\n"
+CHECK_BADGE="$(cat ~/SourceCode/git-readme/Badges | dmenu -i -fn "Gentium Book Plus-13" -nb black -nf cyan -sb cyan -sf black -p "Check Badge")"
+
+while true; do
+    clear
+    printf "=== The Next is Choose Badges Input For Built With! ===\n\n"
+    POPUP="$(echo -e "Dynamic Badges\nCustom Badges" | dmenu -i -fn "Gentium Book Plus-13" -nb black -nf cyan -sb cyan -sf black -p "Built With")"
+    
+    case $POPUP in
+        "Dynamic Badges")
+            new_built_with=""
+            while true; do
+                clear
+                printf "=== The Next is Built With Input (Dynamic Badges)! ===\n\n"
+    
+                new_built_with="$(cat ~/SourceCode/git-readme/Badges | dmenu -i -fn "Gentium Book Plus-13" -nb black -nf cyan -sb cyan -sf black -p "Tech Stack")"
+    
+                if [[ -n "$new_built_with" ]]; then
+                    awk -v new_built_with="$new_built_with" '{
+                        if ($0 == "<!-- add_built_with -->") {
+                            print new_built_with;
+                        }
+                        print;
+                    }' "$README" > "$README.tmp" && mv "$README.tmp" "$README"
+                fi
+    
+                read -e -p "Do you want to add more Tech Stack? (y/n): " choice
+    
+                if [[ "$choice" != "y" ]]; then
+                    break
+                fi
+            done
+             
+        ;;
+    
+        "Custom Badges")
+            new_built_with=""
+            while true; do
+                clear
+                printf "=== The Next is Built With Input! ===\n\n"
+            
+                echo "Input Package (Built With): "
+                read -e -p ">> " template_package
+                echo ""
+             
+                new_built_with+="![${template_package}](https://img.shields.io/badge/${template_package}-ffffff?logo=freedesktopdotorg&style=for-the-badge&color=777777&logoColor=ffffff)<br />"
+            
+                read -e -p "Do you want to add more Built With? (y/n): " choice
+                
+                if [[ "$choice" == "y" ]]; then
+                    new_built_with+=$'\n'
+                else
+                    break
+                fi
+            done
+             
+            if [[ -n "$new_built_with" ]]; then
+                awk -v new_built_with="$new_built_with" '{
+                    if ($0 == "<!-- add_built_with -->") {
+                        print new_built_with;
+                    }
+                    print;
+                }' "$README" > "$README.tmp" && mv "$README.tmp" "$README"
+            fi
+        ;;
+    esac
+
+    read -e -p "Do you want to add more Badges Input? (y/n): " choice
+    
+    if [[ "$choice" != "y" ]]; then
+        break
+    fi
+done
+
+new_prerequisites=""
+while true; do
+    clear
+    printf "=== The Next is Prerequisites Input! ===\n\n"
+
+    echo "Input Package (Prerequisites): "
+    read -e -p ">> " template_package
+    echo ""
+
+    template_package_version="$(sudo pacman -Qi $template_package | grep "^Version" | awk '{print $3}')"
+ 
+    new_prerequisites+="\t<li>$template_package >= $template_package_version</li>"
+ 
+    read -e -p "Do you want to add more Prerequisites? (y/n): " choice
+    
+    if [[ "$choice" == "y" ]]; then
+        new_prerequisites+=$'\n'
+    else
+        break
+    fi
+done
+ 
+if [[ -n "$new_prerequisites" ]]; then
+    awk -v new_prerequisites="$new_prerequisites" '{
+        if ($0 == "    <!-- add_prerequisites -->") {
+            print new_prerequisites;
+        }
+        print;
+    }' "$README" > "$README.tmp" && mv "$README.tmp" "$README"
+fi
+
+new_installation_steps=""
+while true; do
+    clear
+    printf "=== The Next is Installation Input! ===\n\n"
+
+    echo "Input Step Installation: "
+    read -e -p ">> " template_step_installation
+    echo ""
+
+    echo "Input Shell: "
+    read -e -p ">> " template_shell
+    echo ""
+ 
+    if [[ -z $template_step_installation && -z $template_shell ]]; then
+        break
+    fi
+
+    new_installation_steps+="$template_step_installation\n\`\`\`sh\n$template_shell\n\`\`\`"
+
+    read -e -p "Do you want to add Step Installation? (y/n): " choice
+
+    if [[ "$choice" == "y" ]]; then
+        new_installation_steps+=$'\n'
+    else
+        break
+    fi
+done
+ 
+if [[ -n "$new_installation_steps" ]]; then
+    awk -v new_installation_steps="$new_installation_steps" '{
+        if ($0 == "<!-- add_installation -->") {
+            print new_installation_steps;
+        }
+        print;
+    }' "$README" > "$README.tmp" && mv "$README.tmp" "$README"
+fi
+ 
+new_usage=""
+while true; do
+    clear
+    printf "=== The Last is Usage Input! ===\n\n"
+
+    echo "Input Step Usage: "
+    read -e -p ">> " template_step_usage
+    echo ""
+
+    echo "Input Shell: "
+    read -e -p ">> " template_shell_usage
+    echo ""
+ 
+    new_usage+="\n$template_step_usage\n\`\`\`sh\n$template_shell_usage\n\`\`\`"
+ 
+    read -e -p "Do you want to add more Step Usage? (y/n): " choice
+
+    if [[ "$choice" != "y" ]]; then
+        break
+    fi
+done
+ 
+if [[ -n "$new_usage" ]]; then
+    awk -v new_usage="$new_usage" '{
+        if ($0 == "<!-- add_usage -->") {
+            print new_usage;
+        }
+        print;
+    }' "$README" > "$README.tmp" && mv "$README.tmp" "$README"
+fi
+
+mv $README README.md
+
+clear
+printf "Done Created!\nHave a nice day...\n\n"
