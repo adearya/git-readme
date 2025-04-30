@@ -1,11 +1,11 @@
 <a name="readme-top"></a>
 
-<!-- test2 -->
+<!-- git-readme -->
 <br />
 
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/adearya/test2/HEAD/raw/images/github_user_logo.jpeg" alt="Github User Logo" width="80" height="80">
+<img src="https://raw.githubusercontent.com/adearya/git-readme/HEAD/raw/images/github_user_logo.jpeg" alt="Github User Logo" width="80" height="80">
 
 <h3 align="center">Git Readme</h3>
     <p align="center">
@@ -38,7 +38,7 @@
 
 ## About The Project
 
-![App Screenshot](https://raw.githubusercontent.com/adearya/test2/HEAD/raw/images/desktop_screenshot.png)
+![App Screenshot](https://raw.githubusercontent.com/adearya/git-readme/HEAD/raw/images/desktop_screenshot.png)
 
 <p align="center">
     This project automates the creation of a standard README.md file by gathering user input directly from the terminal. It supports quick setup for open source or personal projects.
@@ -60,8 +60,8 @@
 <p>Before getting started, ensure that your system meets all the necessary requirements to run this project smoothly. Below is a list of prerequisites that need to be installed.</p>
 
 <ul>
-	<li>bash >= 5.2.037-1</li>
-	<li>git >= 2.47.1-1</li>
+    <li>bash >= 5.2.037-1</li>
+    <li>git >= 2.47.1-1</li>
     <!-- add_prerequisites -->
 </ul>
 
@@ -70,11 +70,11 @@
 
 Clone the repo
 ```sh
-git clone https://github.com/adearya/test2.git
+git clone https://github.com/adearya/git-readme.git
 ```
 Change directory
 ```sh
-cd test2/
+cd git-readme/
 ```
 <!-- add_installation -->
 
