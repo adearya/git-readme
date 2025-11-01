@@ -1,6 +1,6 @@
 #!/bin/bash
 
-README="README"
+README="README_template.md"
 
 if [[ ! -f "$README" ]]; then
     echo "Error: $README not found!"

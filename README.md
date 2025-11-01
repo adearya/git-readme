@@ -5,7 +5,7 @@
 
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/adearya/git-readme/HEAD/raw/images/github_user_logo.jpeg" alt="Github User Logo" width="80" height="80">
+<img src="https://raw.githubusercontent.com/adearya/git-readme/HEAD/.raw/images/github_user_logo.jpeg" alt="Github User Logo" width="80" height="80">
 
 <h3 align="center">Git Readme</h3>
     <p align="center">
@@ -38,7 +38,7 @@
 
 ## About The Project
 
-![App Screenshot](https://raw.githubusercontent.com/adearya/git-readme/HEAD/raw/images/desktop_screenshot.png)
+![App Screenshot](https://raw.githubusercontent.com/adearya/git-readme/HEAD/.raw/images/desktop_screenshot.png)
 
 <p align="center">
     This project automates the creation of a standard README.md file by gathering user input directly from the terminal. It supports quick setup for open source or personal projects.
